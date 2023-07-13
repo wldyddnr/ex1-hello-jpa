@@ -16,22 +16,13 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try {
-//            Member member = new Member();
-//            member.setName("hello");
-//            member.setId(2L);
-//            em.persist(member);
 
-//            Member findMember = em.find(Member.class, 1L);
-//            findMember.setName("helloC");
+            Member member = new Member();
+            member.setId(1L);
+            member.setUsername("A");
+            member.setRoleType(RoleType.USER);
 
-            List<Member> result = em.createQuery("select m from Member as m", Member.class)
-                    .setFirstResult(5)
-                    .setMaxResults(8)
-                    .getResultList();
-
-            for (Member member : result) {
-                System.out.println("member.name = " + member.getName());
-            }
+            em.persist(member);
 
             tx.commit();
         } catch (Exception e) {
