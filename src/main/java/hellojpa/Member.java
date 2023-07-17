@@ -15,7 +15,7 @@ import java.util.Date;
 //@SequenceGenerator(name = "member_seq_generator",sequenceName = "member_seq")
 @TableGenerator(name = "MEMBER_SEQ_GENERATOR",
         table = "MY_SEQUENCES",
-        pkColumnValue = "MEMBER_SEQ", allocationSize = 1)
+        pkColumnValue = "MEMBER_SEQ", allocationSize = 50)
 
 public class Member {
 
@@ -25,6 +25,20 @@ public class Member {
 
     @Column(name = "name")
     private String username;
+
+    @ManyToOne
+    @JoinColumn(name = "TEAM_ID")
+    private Team team;
+
+    public Team getTeam() {
+        return team;
+    }
+
+    //연관관계 편의 메소드
+    public void changeTeam(Team team) {
+        this.team = team;
+        team.getMembers().add(this);
+    }
 
     public Long getId() {
         return id;
