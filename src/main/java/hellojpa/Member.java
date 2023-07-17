@@ -35,6 +35,13 @@ public class Member {
     }
 
     //연관관계 편의 메소드
+    /**
+     * 양방향 연관관계 주의 - 실습
+     * • 순수 객체 상태를 고려해서 항상 양쪽에 값을 설정하자
+     * • 연관관계 편의 메소드를 생성하자
+     * • 양방향 매핑시에 무한 루프를 조심하자
+     * • 예: toString(), lombok, JSON 생성 라이브러리
+     */
     public void changeTeam(Team team) {
         this.team = team;
         team.getMembers().add(this);
@@ -51,7 +58,7 @@ public class Member {
     public String getUsername() {
         return username;
     }
-
+    
     public void setUsername(String username) {
         this.username = username;
     }
