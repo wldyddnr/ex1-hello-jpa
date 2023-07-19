@@ -1,7 +1,9 @@
 package hellojpa;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 권장하는 식별자 전략
@@ -16,7 +18,6 @@ import java.util.Date;
 @TableGenerator(name = "MEMBER_SEQ_GENERATOR",
         table = "MY_SEQUENCES",
         pkColumnValue = "MEMBER_SEQ", allocationSize = 50)
-
 public class Member {
 
     @Id
@@ -31,8 +32,11 @@ public class Member {
     private Team team;
 
     @OneToOne
-    @JoinColumn(name = "locker_id")
+    @JoinColumn(name = "LOCKER_ID")
     private Locker locker;
+
+    @OneToMany(mappedBy = "member")
+    private List<Order> orders = new ArrayList<>();
 
     public Team getTeam() {
         return team;
