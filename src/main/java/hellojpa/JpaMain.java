@@ -18,28 +18,25 @@ public class JpaMain {
         tx.begin();
         try {
 
-            Member member1 = new Member();
-            member1.setUsername("ji");
+            Child child1 = new Child();
+            Child child2 = new Child();
 
-            em.persist(member1);
+            Parent parent = new Parent();
+            parent.addChild(child1);
+            parent.addChild(child2);
 
-            Member member2 = new Member();
-            member2.setUsername("ji");
-
-            em.persist(member2);
+            em.persist(parent);
 
             em.flush();
             em.clear();
 
-//            Member findMember = em.find(Member.class, member.getId());
-            Member m1 = em.find(Member.class, member1.getId());
-            Member m2 = em.getReference(Member.class, member2.getId());
-
-            System.out.println("m1 == m2 : " + (m1.getClass() == m2.getClass()));
+            Parent findParent = em.find(Parent.class, parent.getId());
+            findParent.getChildList().remove(0);
 
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
+            e.printStackTrace();
         } finally {
             em.close();
         }
