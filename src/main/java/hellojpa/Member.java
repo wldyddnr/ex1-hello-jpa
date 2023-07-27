@@ -2,9 +2,7 @@ package hellojpa;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * 권장하는 식별자 전략
@@ -19,7 +17,7 @@ import java.util.List;
 //@TableGenerator(name = "MEMBER_SEQ_GENERATOR",
 //        table = "MY_SEQUENCES",
 //        pkColumnValue = "MEMBER_SEQ", allocationSize = 50)
-public class Member extends BaseEntity{
+public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue//(strategy = GenerationType.TABLE, generator = "MEMBER_SEQ_GENERATOR")
@@ -27,6 +25,18 @@ public class Member extends BaseEntity{
 
     @Column(name = "name")
     private String username;
+
+    @Embedded
+    private Address homeAddress;
+
+    @ElementCollection
+    @CollectionTable(name = "FAVORITE_FOOD", joinColumns = @JoinColumn(name = "MEMBER_ID"))
+    @Column(name = "FOOD_NAME")
+    private Set<String> favoriteFoods = new HashSet<>();
+
+    @ElementCollection
+    @CollectionTable(name = "ADDRESS", joinColumns = @JoinColumn(name = "MEMBER_ID"))
+    private List<Address> addressHistory = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "TEAM_ID")
@@ -44,6 +54,7 @@ public class Member extends BaseEntity{
     }
 
     //연관관계 편의 메소드
+
     /**
      * 양방향 연관관계 주의 - 실습
      * • 순수 객체 상태를 고려해서 항상 양쪽에 값을 설정하자
@@ -67,7 +78,7 @@ public class Member extends BaseEntity{
     public String getUsername() {
         return username;
     }
-    
+
     public void setUsername(String username) {
         this.username = username;
     }
